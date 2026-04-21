@@ -28,6 +28,9 @@
       <a data-nav="dashboard" class="nav-link">Dashboard</a>
       <a data-nav="analytics" class="nav-link">Analytics</a>
       <a data-nav="chat" class="nav-link">AI Chat</a>
+      <a data-nav="booking" class="nav-link">Booking</a>
+      <a data-nav="profile" class="nav-link">Profile</a>
+      <a data-nav="blog" class="nav-link">Blog</a>
       <button class="nav-cta" data-nav="checkin">Start Today</button>
     </div>
     <button class="hamburger" id="nav-toggle">
@@ -42,6 +45,9 @@
     <a data-nav="dashboard" class="nav-link">Dashboard</a>
     <a data-nav="analytics" class="nav-link">Analytics</a>
     <a data-nav="chat" class="nav-link">AI Chat</a>
+      <a data-nav="booking" class="nav-link">Booking</a>
+      <a data-nav="profile" class="nav-link">Profile</a>
+      <a data-nav="blog" class="nav-link">Blog</a>
   </div>
 
   <!-- ── PAGES ─────────────────────────────────────── -->
@@ -424,7 +430,7 @@
       <div class="chart-panel">
         <h3 class="panel-title">14-Day Wellness Trend</h3>
         <div class="chart-wrap">
-          <canvas id="trend-chart"></canvas>
+          <canvas id="analytics-chart"></canvas>
         </div>
       </div>
 
@@ -501,6 +507,142 @@
     </div>
   </div>
 
+  <!-- BOOKING PAGE -->
+  <div id="page-booking" class="page">
+    <div class="page-header">
+      <h1>Book an Appointment</h1>
+      <p>Schedule a consultation with our wellness experts</p>
+    </div>
+
+    <div class="booking-layout">
+      <div class="booking-form-container">
+        <form id="booking-form" class="booking-form">
+          <div class="form-section">
+            <h3 class="form-label">Your Name</h3>
+            <input type="text" id="booking-name" class="form-input" placeholder="Enter your name" required />
+          </div>
+
+          <div class="form-section">
+            <h3 class="form-label">Email Address</h3>
+            <input type="email" id="booking-email" class="form-input" placeholder="your@email.com" required />
+          </div>
+
+          <div class="form-row">
+            <div class="form-section">
+              <h3 class="form-label">Preferred Date</h3>
+              <input type="date" id="booking-date" class="form-input" required />
+            </div>
+            <div class="form-section">
+              <h3 class="form-label">Preferred Time</h3>
+              <select id="booking-time" class="form-input" required>
+                <option value="">Select time</option>
+                <option value="09:00">09:00 AM</option>
+                <option value="10:00">10:00 AM</option>
+                <option value="11:00">11:00 AM</option>
+                <option value="14:00">02:00 PM</option>
+                <option value="15:00">03:00 PM</option>
+                <option value="16:00">04:00 PM</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="booking-error" class="error-msg" style="display:none"></div>
+          <div id="booking-success" class="success-msg" style="display:none"></div>
+
+          <button type="submit" class="btn-primary btn-full">Book Appointment</button>
+        </form>
+      </div>
+
+      <div class="bookings-list-container">
+        <h3 class="panel-title">Your Appointments</h3>
+        <div id="bookings-list" class="bookings-list">
+          <p class="empty-text">No appointments yet.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE PAGE -->
+  <div id="page-profile" class="page">
+    <div class="page-header">
+      <h1>Your Profile</h1>
+      <p>Manage your personal information</p>
+    </div>
+
+    <div class="profile-layout">
+      <div class="profile-card">
+        <div class="profile-avatar">
+          <span class="avatar-icon">👤</span>
+        </div>
+
+        <div class="profile-fields">
+          <div class="form-section">
+            <h3 class="form-label">Name</h3>
+            <input type="text" id="profile-name-input" class="form-input profile-input" value="Guest User" readonly />
+            <span id="profile-name" class="profile-display"></span>
+          </div>
+
+          <div class="form-section">
+            <h3 class="form-label">Email</h3>
+            <input type="email" id="profile-email-input" class="form-input profile-input" value="Not set" readonly />
+            <span id="profile-email" class="profile-display"></span>
+          </div>
+        </div>
+
+        <div class="profile-actions">
+          <button id="edit-profile-btn" class="btn-primary">Edit Profile</button>
+          <button id="save-profile-btn" class="btn-primary" style="display:none">Save</button>
+          <button id="cancel-edit-btn" class="btn-ghost" style="display:none">Cancel</button>
+        </div>
+      </div>
+
+      <div class="profile-stats">
+        <h3 class="panel-title">Your Statistics</h3>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">📝</div>
+            <div class="stat-num" id="stat-total-checkins">--</div>
+            <div class="stat-lbl">Total Check-ins</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-num" id="stat-latest-score">--</div>
+            <div class="stat-lbl">Latest Score</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-num" id="stat-avg-score">--</div>
+            <div class="stat-lbl">Average Score</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🏆</div>
+            <div class="stat-num" id="stat-best-score">--</div>
+            <div class="stat-lbl">Best Score</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOG PAGE -->
+  <div id="page-blog" class="page">
+    <div class="page-header">
+      <h1>Knowledge Hub</h1>
+      <p>Articles and insights for your wellness journey</p>
+    </div>
+
+    <div class="blog-filters">
+      <button class="filter-btn active" onclick="Blog.filterByCategory('all')">All</button>
+      <button class="filter-btn" onclick="Blog.filterByCategory('stress')">Stress</button>
+      <button class="filter-btn" onclick="Blog.filterByCategory('sleep')">Sleep</button>
+      <button class="filter-btn" onclick="Blog.filterByCategory('fitness')">Fitness</button>
+      <button class="filter-btn" onclick="Blog.filterByCategory('energy')">Energy</button>
+    </div>
+
+    <div id="blog-articles" class="blog-grid">
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="js/storage.js"></script>
   <script src="js/logic.js"></script>
@@ -509,6 +651,9 @@
   <script src="js/dashboard.js"></script>
   <script src="js/navigation.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/booking.js"></script>
+  <script src="js/profile.js"></script>
+  <script src="js/blog.js"></script>
 </body>
 
 </html>

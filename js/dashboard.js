@@ -14,16 +14,15 @@
   'use strict';
 
   /**
-   * Dashboard elements cache
+   * Chart instance
    */
-  let elements = {};
+  let trendChart = null;
 
   /**
    * Initialize dashboard
    * @public
    */
   function init() {
-    console.log('Initializing Dashboard...');
     cacheElements();
     refresh();
   }
@@ -34,227 +33,203 @@
    */
   function cacheElements() {
     elements = {
-      wellnessScore: document.getElementById('wellness-score'),
-      streakCount: document.getElementById('streak-count'),
-      entriesCount: document.getElementById('entries-count'),
-      moodTrend: document.getElementById('mood-trend'),
-      recentEntries: document.getElementById('recent-entries'),
-      statsContainer: document.getElementById('stats-container')
+      mainScore: document.getElementById('main-score'),
+      scoreLabel: document.getElementById('score-label'),
+      lastCheckinDate: document.getElementById('last-checkin-date'),
+      scoreCircleFill: document.getElementById('score-circle-fill'),
+      physicalBar: document.getElementById('physical-bar'),
+      physicalVal: document.getElementById('physical-val'),
+      mentalBar: document.getElementById('mental-bar'),
+      mentalVal: document.getElementById('mental-val'),
+      emotionalBar: document.getElementById('emotional-bar'),
+      emotionalVal: document.getElementById('emotional-val'),
+      statAvg: document.getElementById('stat-avg'),
+      statBest: document.getElementById('stat-best'),
+      statStreak: document.getElementById('stat-streak'),
+      insightsContainer: document.getElementById('insights-container'),
+      dashboardEmpty: document.getElementById('dashboard-empty'),
+      dashboardContent: document.getElementById('dashboard-content')
     };
   }
+
+  /**
+   * Dashboard elements cache
+   */
+  let elements = {};
 
   /**
    * Refresh dashboard data
    * @public
    */
   function refresh() {
-    updateWellnessScore();
-    updateStreak();
-    updateEntryCount();
-    updateMoodTrend();
-    updateRecentEntries();
-    updateStats();
-  }
+    const checkIns = Storage.getCheckIns();
+    const latest = Storage.getLatestCheckIn();
 
-  /**
-   * Update wellness score display
-   * @private
-   */
-  function updateWellnessScore() {
-    const entries = Storage.get('mood_entries') || [];
-    const data = { moodEntries: entries };
-    
-    const score = window.WellnessLogic.calculateWellnessScore(data);
-    
-    if (elements.wellnessScore) {
-      elements.wellnessScore.textContent = score;
-      
-      // Update color based on score
-      const color = getScoreColor(score);
-      elements.wellnessScore.style.color = color;
-    }
-  }
-
-  /**
-   * Update streak count display
-   * @private
-   */
-  function updateStreak() {
-    const entries = Storage.get('mood_entries') || [];
-    const streak = window.WellnessLogic.getStreakCount(entries);
-    
-    if (elements.streakCount) {
-      elements.streakCount.textContent = streak;
-    }
-  }
-
-  /**
-   * Update entries count
-   * @private
-   */
-  function updateEntryCount() {
-    const entries = Storage.get('mood_entries') || [];
-    
-    if (elements.entriesCount) {
-      elements.entriesCount.textContent = entries.length;
-    }
-  }
-
-  /**
-   * Update mood trend display
-   * @private
-   */
-  function updateMoodTrend() {
-    const entries = Storage.get('mood_entries') || [];
-    const trend = window.WellnessLogic.calculateMoodTrend(entries);
-    
-    if (elements.moodTrend) {
-      const trendIcon = getTrendIcon(trend);
-      const trendLabel = trend.charAt(0).toUpperCase() + trend.slice(1);
-      elements.moodTrend.innerHTML = `${trendIcon} ${trendLabel}`;
-    }
-  }
-
-  /**
-   * Update recent entries list
-   * @private
-   */
-  function updateRecentEntries() {
-    if (!elements.recentEntries) return;
-    
-    const entries = Storage.get('mood_entries') || [];
-    const recent = entries.slice(-5).reverse();
-    
-    if (recent.length === 0) {
-      elements.recentEntries.innerHTML = '<p class="text-muted">No entries yet</p>';
+    if (!latest) {
+      showEmptyState();
       return;
     }
 
-    const html = recent.map(entry => {
-      const date = new Date(entry.date).toLocaleDateString();
-      const moodIcon = getMoodIcon(entry.mood);
-      
-      return `
-        <div class="recent-entry" style="display: flex; align-items: center; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--color-border);">
-          <span style="font-size: 1.5rem;">${moodIcon}</span>
-          <div style="flex: 1;">
-            <div style="font-weight: 500;">${capitalize(entry.mood)}</div>
-            <div class="text-muted" style="font-size: 0.875rem;">${date}</div>
-          </div>
-        </div>
-      `;
-    }).join('');
-
-    elements.recentEntries.innerHTML = html;
+    hideEmptyState();
+    updateScoreDisplay(latest);
+    updateCategoryBars(latest);
+    updateQuickStats(checkIns);
+    renderTrendChart(checkIns);
+    renderInsights(latest);
   }
 
   /**
-   * Update additional stats
-   * @private
+   * Show empty state
    */
-  function updateStats() {
-    const entries = Storage.get('mood_entries') || [];
-    
-    // Calculate additional stats
-    const avgSleep = calculateAverage(entries, 'factors.sleep');
-    const avgExercise = calculateAverage(entries, 'factors.exercise');
-    
-    // Update HTML if stat elements exist
-    const sleepEl = document.getElementById('avg-sleep');
-    const exerciseEl = document.getElementById('avg-exercise');
-    
-    if (sleepEl && avgSleep) {
-      sleepEl.textContent = avgSleep.toFixed(1) + ' hrs';
+  function showEmptyState() {
+    if (elements.dashboardEmpty) elements.dashboardEmpty.style.display = 'block';
+    if (elements.dashboardContent) elements.dashboardContent.style.display = 'none';
+  }
+
+  /**
+   * Hide empty state
+   */
+  function hideEmptyState() {
+    if (elements.dashboardEmpty) elements.dashboardEmpty.style.display = 'none';
+    if (elements.dashboardContent) elements.dashboardContent.style.display = 'block';
+  }
+
+  /**
+   * Update score display
+   */
+  function updateScoreDisplay(latest) {
+    if (!latest || !latest.score) return;
+
+    const score = latest.score;
+    const label = Logic.getScoreLabel(score);
+
+    if (elements.mainScore) {
+      elements.mainScore.textContent = score;
+      elements.mainScore.style.color = label.color;
     }
-    
-    if (exerciseEl && avgExercise) {
-      exerciseEl.textContent = avgExercise + ' min';
+    if (elements.scoreLabel) {
+      elements.scoreLabel.textContent = label.label;
+      elements.scoreLabel.style.color = label.color;
     }
-  }
+    if (elements.lastCheckinDate) {
+      elements.lastCheckinDate.textContent = latest.date || new Date().toLocaleDateString();
+    }
 
-  /**
-   * Get color for score
-   * @private
-   * @param {number} score - Wellness score
-   * @returns {string} Color hex code
-   */
-  function getScoreColor(score) {
-    if (score >= 80) return '#4CAF50';
-    if (score >= 60) return '#8BC34A';
-    if (score >= 40) return '#FFC107';
-    if (score >= 20) return '#FF9800';
-    return '#F44336';
-  }
-
-  /**
-   * Get icon for trend
-   * @private
-   * @param {string} trend - Trend direction
-   * @returns {string} Trend icon
-   */
-  function getTrendIcon(trend) {
-    switch (trend) {
-      case 'improving': return '📈';
-      case 'declining': return '📉';
-      default: return '➡️';
+    // Animate ring
+    if (elements.scoreCircleFill) {
+      const circumference = 2 * Math.PI * 54;
+      const offset = circumference - (score / 100) * circumference;
+      elements.scoreCircleFill.style.strokeDashoffset = offset;
+      elements.scoreCircleFill.style.stroke = label.color;
     }
   }
 
   /**
-   * Get icon for mood
-   * @private
-   * @param {string} moodId - Mood ID
-   * @returns {string} Mood icon
+   * Update category bars
    */
-  function getMoodIcon(moodId) {
-    const icons = {
-      happy: '😊',
-      good: '🙂',
-      neutral: '😐',
-      bad: '😔',
-      terrible: '😢'
-    };
-    return icons[moodId] || '😐';
+  function updateCategoryBars(latest) {
+    if (!latest || !latest.categories) return;
+
+    const { physical, mental, emotional } = latest.categories;
+
+    updateBar(elements.physicalBar, elements.physicalVal, physical, '#4ade80');
+    updateBar(elements.mentalBar, elements.mentalVal, mental, '#60a5fa');
+    updateBar(elements.emotionalBar, elements.emotionalVal, emotional, '#f472b6');
   }
 
   /**
-   * Calculate average for a field
-   * @private
-   * @param {Array} entries - Entries
-   * @param {string} field - Field path
-   * @returns {number} Average value
+   * Update single bar
    */
-  function calculateAverage(entries, field) {
-    const values = entries
-      .map(e => {
-        if (field.includes('.')) {
-          const parts = field.split('.');
-          return e[parts[0]] ? e[parts[0]][parts[1]] : null;
+  function updateBar(barEl, valEl, value, color) {
+    if (!barEl || !valEl) return;
+    barEl.style.width = value + '%';
+    barEl.style.background = color;
+    valEl.textContent = value;
+  }
+
+  /**
+   * Update quick stats
+   */
+  function updateQuickStats(checkIns) {
+    if (!checkIns || checkIns.length === 0) return;
+
+    const scores = checkIns.map(c => c.score || 0);
+    const avg = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+    const best = Math.max(...scores);
+
+    if (elements.statAvg) elements.statAvg.textContent = avg;
+    if (elements.statBest) elements.statBest.textContent = best;
+    if (elements.statStreak) elements.statStreak.textContent = checkIns.length;
+  }
+
+  /**
+   * Render trend chart
+   */
+  function renderTrendChart(checkIns) {
+    const canvas = document.getElementById('trend-chart');
+    if (!canvas || typeof Chart === 'undefined') return;
+
+    const recent = checkIns.slice(-14);
+    const labels = recent.map(c => c.date || '');
+    const data = recent.map(c => c.score || 0);
+
+    if (trendChart) trendChart.destroy();
+
+    trendChart = new Chart(canvas, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Wellness Score',
+          data,
+          borderColor: '#a78bfa',
+          backgroundColor: 'rgba(167,139,250,0.1)',
+          fill: true,
+          tension: 0.4,
+          pointRadius: 4,
+          pointBackgroundColor: '#a78bfa'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { min: 0, max: 100, grid: { color: 'rgba(148,163,184,0.1)' } },
+          x: { grid: { display: false } }
         }
-        return e[field];
-      })
-      .filter(v => v !== null && !isNaN(v));
-    
-    if (values.length === 0) return null;
-    
-    const sum = values.reduce((a, b) => a + b, 0);
-    return sum / values.length;
+      }
+    });
   }
 
   /**
-   * Capitalize first letter
-   * @private
-   * @param {string} str - String
-   * @returns {string} Capitalized string
+   * Render AI insights
    */
-  function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+  function renderInsights(latest) {
+    if (!elements.insightsContainer || !AI) return;
+
+    const insights = AI.generateInsights(latest);
+    if (!insights || insights.length === 0) {
+      elements.insightsContainer.innerHTML = '<p class="text-muted">Complete check-ins to see AI insights.</p>';
+      return;
+    }
+
+    elements.insightsContainer.innerHTML = insights.map(insight => `
+      <div class="insight-card insight-${insight.type || 'info'}">
+        <div class="insight-header">
+          <span class="insight-icon">${insight.icon || '💡'}</span>
+          <span class="insight-title">${insight.title || ''}</span>
+        </div>
+        <p class="insight-body">${insight.body || ''}</p>
+        ${insight.action ? `<p class="insight-action">${insight.action}</p>` : ''}
+      </div>
+    `).join('');
   }
 
   // Expose public API
   window.Dashboard = {
-    init: init,
-    refresh: refresh
+    init,
+    refresh
   };
 
 })();

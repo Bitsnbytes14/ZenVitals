@@ -63,6 +63,7 @@ const Chat = {
 
 // ── App Init ─────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize navigation (handles all page switching)
   Navigation.init();
 
   // Seed demo data if no check-ins exist
