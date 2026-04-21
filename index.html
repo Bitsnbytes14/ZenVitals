@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ZenVitals - AI Wellness Platform for mood tracking and personal insights">
+  <title>ZenVitals – AI Wellness Platform</title>
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="logo-icon">Z</div>
+        <span>ZenVitals</span>
+      </div>
+      
+      <nav class="nav-menu">
+        <div class="nav-item active" data-page="home">
+          <span class="nav-icon">🏠</span>
+          <span>Home</span>
+        </div>
+        
+        <div class="nav-item" data-page="mood">
+          <span class="nav-icon">😊</span>
+          <span>Mood Tracker</span>
+        </div>
+        
+        <div class="nav-item" data-page="dashboard">
+          <span class="nav-icon">📊</span>
+          <span>Dashboard</span>
+        </div>
+        
+        <div class="nav-item" data-page="insights">
+          <span class="nav-icon">🤖</span>
+          <span>AI Insights</span>
+        </div>
+        
+        <div class="nav-item" data-page="reflect">
+          <span class="nav-icon">📝</span>
+          <span>Reflect</span>
+        </div>
+      </nav>
+    </aside>
+    
+    <!-- Header -->
+    <header class="header">
+      <h1 class="header-title">Welcome</h1>
+      <div class="header-actions">
+        <button class="btn btn-secondary" id="export-data">Export Data</button>
+      </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+      
+      <!-- Home Page -->
+      <section id="home" class="page active">
+        <div class="card" style="text-align: center; padding: 40px;">
+          <div style="font-size: 4rem; margin-bottom: 16px;">🧘</div>
+          <h2 style="margin-bottom: 8px;">Welcome to ZenVitals</h2>
+          <p class="text-muted" style="margin-bottom: 24px;">Your personal AI-powered wellness companion</p>
+          
+          <div style="display: flex; gap: 16px; justify-content: center;">
+            <button class="btn btn-primary" onclick="Navigation.navigateTo('mood')">Track Your Mood</button>
+            <button class="btn btn-secondary" onclick="Navigation.navigateTo('dashboard')">View Dashboard</button>
+          </div>
+        </div>
+        
+        <div class="stats-grid" style="margin-top: 24px;">
+          <div class="card stat-card">
+            <div class="stat-value" id="home-wellness-score">--</div>
+            <div class="stat-label">Wellness Score</div>
+          </div>
+          
+          <div class="card stat-card">
+            <div class="stat-value" id="home-streak">--</div>
+            <div class="stat-label">Day Streak</div>
+          </div>
+          
+          <div class="card stat-card">
+            <div class="stat-value" id="home-entries">--</div>
+            <div class="stat-label">Total Entries</div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Mood Tracker Page -->
+      <section id="mood" class="page">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">How are you feeling today?</h2>
+          </div>
+          
+          <div class="mood-selector">
+            <div class="mood-option" data-mood="happy">
+              <span class="mood-icon">😊</span>
+              <span class="mood-label">Happy</span>
+            </div>
+            
+            <div class="mood-option" data-mood="good">
+              <span class="mood-icon">🙂</span>
+              <span class="mood-label">Good</span>
+            </div>
+            
+            <div class="mood-option" data-mood="neutral">
+              <span class="mood-icon">😐</span>
+              <span class="mood-label">Neutral</span>
+            </div>
+            
+            <div class="mood-option" data-mood="bad">
+              <span class="mood-icon">😔</span>
+              <span class="mood-label">Bad</span>
+            </div>
+            
+            <div class="mood-option" data-mood="terrible">
+              <span class="mood-icon">😢</span>
+              <span class="mood-label">Terrible</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card" style="margin-top: 16px;">
+          <div class="card-header">
+            <h3 class="card-title">Additional Context</h3>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="form-group">
+              <label class="form-label">Hours of Sleep</label>
+              <input type="number" id="sleep-hours" class="form-input" min="0" max="24" step="0.5" placeholder="7">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Exercise (minutes)</label>
+              <input type="number" id="exercise-minutes" class="form-input" min="0" max="480" placeholder="30">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Notes (optional)</label>
+            <textarea id="mood-notes" class="journal-textarea" placeholder="How was your day? Any thoughts..."></textarea>
+          </div>
+          
+          <button class="btn btn-primary" id="submit-mood" style="width: 100%;">Save Mood Entry</button>
+        </div>
+      </section>
+      
+      <!-- Dashboard Page -->
+      <section id="dashboard" class="page">
+        <div class="stats-grid">
+          <div class="card stat-card">
+            <div class="stat-value" id="wellness-score">--</div>
+            <div class="stat-label">Wellness Score</div>
+          </div>
+          
+          <div class="card stat-card">
+            <div class="stat-value" id="streak-count">--</div>
+            <div class="stat-label">Current Streak</div>
+          </div>
+          
+          <div class="card stat-card">
+            <div class="stat-value" id="entries-count">--</div>
+            <div class="stat-label">Total Entries</div>
+          </div>
+          
+          <div class="card stat-card">
+            <div class="stat-value" id="mood-trend">--</div>
+            <div class="stat-label">Mood Trend</div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Recent Entries</h3>
+          </div>
+          <div id="recent-entries">
+            <p class="text-muted">Loading...</p>
+          </div>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Sleep Average</h3>
+            </div>
+            <div class="stat-value" id="avg-sleep" style="font-size: 1.5rem;">--</div>
+          </div>
+          
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Activity Average</h3>
+            </div>
+            <div class="stat-value" id="avg-exercise" style="font-size: 1.5rem;">--</div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- AI Insights Page -->
+      <section id="insights" class="page">
+        <div id="insights-container">
+          <div class="card" style="text-align: center; padding: 40px;">
+            <div style="font-size: 3rem; margin-bottom: 16px;">🤖</div>
+            <h3 style="margin-bottom: 8px;">AI-Powered Insights</h3>
+            <p class="text-muted">Analyzing your data to provide personalized recommendations...</p>
+          </div>
+        </div>
+        
+        <button class="btn btn-primary" id="refresh-insights" style="width: 100%; margin-top: 16px;">
+          Generate New Insights
+        </button>
+      </section>
+      
+      <!-- Reflect/Journal Page -->
+      <section id="reflect" class="page">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Daily Reflection</h2>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">What are you grateful for today?</label>
+            <textarea id="gratitude-input" class="journal-textarea" placeholder="Write about something you're grateful for..."></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">What challenges did you face?</label>
+            <textarea id="challenges-input" class="journal-textarea" placeholder="Write about any challenges..."></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">What did you learn?</label>
+            <textarea id="learnings-input" class="journal-textarea" placeholder="Write about something you learned..."></textarea>
+          </div>
+          
+          <button class="btn btn-primary" id="save-journal" style="width: 100%;">Save Journal Entry</button>
+        </div>
+      </section>
+      
+    </main>
+  </div>
+  
+  <!-- JavaScript Files (in order of dependency) -->
+  <script src="js/storage.js"></script>
+  <script src="js/logic.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/mood.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

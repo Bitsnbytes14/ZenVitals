@@ -1,0 +1,99 @@
+{
+  "version": "1.0.0",
+  "description": "Sample data for ZenVitals development and testing",
+  "sample": {
+    "moodEntries": [
+      {
+        "id": "mood_1700000001",
+        "mood": "good",
+        "date": "2026-04-15T08:00:00.000Z",
+        "factors": {
+          "sleep": 7.5,
+          "exercise": 30,
+          "notes": "Had a productive morning"
+        }
+      },
+      {
+        "id": "mood_1700000002",
+        "mood": "happy",
+        "date": "2026-04-16T08:30:00.000Z",
+        "factors": {
+          "sleep": 8,
+          "exercise": 45,
+          "notes": "Great workout session"
+        }
+      },
+      {
+        "id": "mood_1700000003",
+        "mood": "neutral",
+        "date": "2026-04-17T09:00:00.000Z",
+        "factors": {
+          "sleep": 6.5,
+          "exercise": 20,
+          "notes": "Busy day at work"
+        }
+      },
+      {
+        "id": "mood_1700000004",
+        "mood": "good",
+        "date": "2026-04-18T08:00:00.000Z",
+        "factors": {
+          "sleep": 7,
+          "exercise": 30,
+          "notes": ""
+        }
+      },
+      {
+        "id": "mood_1700000005",
+        "mood": "happy",
+        "date": "2026-04-19T08:15:00.000Z",
+        "factors": {
+          "sleep": 8.5,
+          "exercise": 60,
+          "notes": "Perfect weather for a run"
+        }
+      },
+      {
+        "id": "mood_1700000006",
+        "mood": "neutral",
+        "date": "2026-04-20T09:00:00.000Z",
+        "factors": {
+          "sleep": 7,
+          "exercise": 15,
+          "notes": "Rainy day"
+        }
+      },
+      {
+        "id": "mood_1700000007",
+        "mood": "good",
+        "date": "2026-04-21T08:00:00.000Z",
+        "factors": {
+          "sleep": 7.5,
+          "exercise": 40,
+          "notes": "Feeling energized"
+        }
+      }
+    ],
+    "journalEntries": [
+      {
+        "id": "journal_1700000001",
+        "date": "2026-04-15T20:00:00.000Z",
+        "gratitude": "Grateful for supportive friends and family",
+        "challenges": "Feeling a bit overwhelmed with work deadlines",
+        "learnings": "Discovered that morning walks help clear my mind"
+      },
+      {
+        "id": "journal_1700000002",
+        "date": "2026-04-18T20:30:00.000Z",
+        "gratitude": "Grateful for good health and energy",
+        "challenges": "Need to improve sleep schedule",
+        "learnings": "Consistent sleep time makes a big difference"
+      }
+    ],
+    "preferences": {
+      "theme": "light",
+      "dailyReminder": true,
+      "reminderTime": "20:00"
+    }
+  }
+}
