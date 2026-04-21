@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZenVitals — AI-Powered Wellness Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+
+  <!-- ── NAV ──────────────────────────────────────── -->
+  <nav class="navbar">
+    <div class="nav-brand" data-nav="home">
+      <span class="brand-icon">🌿</span>
+      <span class="brand-name">ZenVitals</span>
+    </div>
+    <div class="nav-links">
+      <a data-nav="home" class="nav-link">Home</a>
+      <a data-nav="checkin" class="nav-link">Check-In</a>
+      <a data-nav="dashboard" class="nav-link">Dashboard</a>
+      <a data-nav="analytics" class="nav-link">Analytics</a>
+      <a data-nav="chat" class="nav-link">AI Chat</a>
+      <button class="nav-cta" data-nav="checkin">Start Today</button>
+    </div>
+    <button class="hamburger" id="nav-toggle">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a data-nav="home" class="nav-link">Home</a>
+    <a data-nav="checkin" class="nav-link">Check-In</a>
+    <a data-nav="dashboard" class="nav-link">Dashboard</a>
+    <a data-nav="analytics" class="nav-link">Analytics</a>
+    <a data-nav="chat" class="nav-link">AI Chat</a>
+  </div>
+
+  <!-- ── PAGES ─────────────────────────────────────── -->
+
+  <!-- HOME -->
+  <div id="page-home" class="page">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-bg">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+      </div>
+      <div class="hero-content">
+        <div class="hero-badge">AI-Powered Wellness</div>
+        <h1 class="hero-title">
+          Know your vitals.<br />
+          <em>Own your wellness.</em>
+        </h1>
+        <p class="hero-subtitle">
+          ZenVitals turns your daily inputs into precise wellness scores,
+          actionable AI insights, and long-term health patterns — all in one platform.
+        </p>
+        <div class="hero-actions">
+          <button class="btn-primary" data-nav="checkin">Start Daily Check-In</button>
+          <button class="btn-ghost" data-nav="dashboard">View Dashboard →</button>
+        </div>
+        <div class="hero-stats">
+          <div class="hstat"><span class="hstat-num">3</span><span class="hstat-label">Health Dimensions</span></div>
+          <div class="hstat-sep"></div>
+          <div class="hstat"><span class="hstat-num">AI</span><span class="hstat-label">Personalized Insights</span>
+          </div>
+          <div class="hstat-sep"></div>
+          <div class="hstat"><span class="hstat-num">100</span><span class="hstat-label">Point Wellness Score</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-tag">How It Works</div>
+        <h2 class="section-title">Three steps to clarity</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <div class="step-icon">📝</div>
+          <h3>Daily Check-In</h3>
+          <p>Log your mood, energy, stress, sleep, and activity in under 60 seconds each morning.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <div class="step-icon">🧠</div>
+          <h3>AI Analysis</h3>
+          <p>Our scoring engine calculates your physical, mental, and emotional wellness score in real time.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <div class="step-icon">🎯</div>
+          <h3>Act on Insights</h3>
+          <p>Receive evidence-based, personalized recommendations to improve your specific weak points.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section class="section section-dark">
+      <div class="section-header">
+        <div class="section-tag">Services</div>
+        <h2 class="section-title">Everything you need</h2>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <span class="service-icon">💚</span>
+          <h3>Wellness Scoring</h3>
+          <p>Multi-dimensional scoring formula covering energy, stress, sleep, and activity — weighted for real impact.
+          </p>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">📊</span>
+          <h3>Trend Analytics</h3>
+          <p>Visualize your wellness trajectory over days and weeks. Spot patterns before they become problems.</p>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">🤖</span>
+          <h3>AI Companion</h3>
+          <p>Ask questions, get evidence-based responses. Your personal wellness expert available 24/7.</p>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">🌡</span>
+          <h3>Mood Tracking</h3>
+          <p>Visual mood heatmap reveals correlations between your emotional state and other wellness dimensions.</p>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">💡</span>
+          <h3>Smart Insights</h3>
+          <p>Context-aware recommendations generated from your actual data — not generic health tips.</p>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">🔒</span>
+          <h3>Private & Local</h3>
+          <p>All data stored locally on your device. Zero cloud uploads. Your wellness data stays yours.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="section">
+      <div class="about-grid">
+        <div class="about-text">
+          <div class="section-tag">About ZenVitals</div>
+          <h2>Built for the generation that never stops</h2>
+          <p>Young professionals and students face a unique wellness paradox — high awareness, low action. ZenVitals
+            bridges that gap with a structured, data-driven approach that takes under 60 seconds a day.</p>
+          <p>We believe wellness tracking should be effortless and insightful, not another task on your list. Our AI
+            engine converts your brief daily inputs into meaningful patterns you can actually act on.</p>
+          <button class="btn-primary" data-nav="checkin">Begin Your Assessment</button>
+        </div>
+        <div class="about-visual">
+          <div class="about-card">
+            <div class="ac-header">Today's Snapshot</div>
+            <div class="ac-score">76</div>
+            <div class="ac-label">✨ Balanced</div>
+            <div class="ac-bars">
+              <div class="ac-bar-row"><span>Physical</span>
+                <div class="ac-bar">
+                  <div style="width:82%;background:#4ade80"></div>
+                </div>
+              </div>
+              <div class="ac-bar-row"><span>Mental</span>
+                <div class="ac-bar">
+                  <div style="width:68%;background:#60a5fa"></div>
+                </div>
+              </div>
+              <div class="ac-bar-row"><span>Emotional</span>
+                <div class="ac-bar">
+                  <div style="width:74%;background:#f472b6"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-brand">🌿 ZenVitals</div>
+      <p>Design Thinking Project · AI-Powered Wellness Assessment</p>
+      <p class="footer-sub">Built with pure HTML, CSS & JavaScript · All data stored locally</p>
+    </footer>
+  </div>
+
+  <!-- CHECK-IN PAGE -->
+  <div id="page-checkin" class="page">
+    <div class="page-header">
+      <h1>Daily Check-In</h1>
+      <p>Takes 60 seconds. Shapes your day.</p>
+    </div>
+
+    <div class="checkin-layout">
+      <div class="checkin-form">
+
+        <!-- Mood -->
+        <div class="form-section">
+          <h3 class="form-label">How are you feeling right now?</h3>
+          <div class="mood-grid">
+            <div class="mood-card" data-mood="great">
+              <span class="mood-emoji">😄</span>
+              <span class="mood-name">Great</span>
+            </div>
+            <div class="mood-card" data-mood="good">
+              <span class="mood-emoji">🙂</span>
+              <span class="mood-name">Good</span>
+            </div>
+            <div class="mood-card" data-mood="okay">
+              <span class="mood-emoji">😐</span>
+              <span class="mood-name">Okay</span>
+            </div>
+            <div class="mood-card" data-mood="low">
+              <span class="mood-emoji">😔</span>
+              <span class="mood-name">Low</span>
+            </div>
+            <div class="mood-card" data-mood="awful">
+              <span class="mood-emoji">😣</span>
+              <span class="mood-name">Awful</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Energy -->
+        <div class="form-section">
+          <div class="slider-header">
+            <h3 class="form-label">Energy Level</h3>
+            <span class="slider-value" id="energy-val">5</span>
+          </div>
+          <input type="range" id="energy-slider" class="slider" min="1" max="10" value="5" step="1" />
+          <div class="slider-hints"><span>Exhausted</span><span>Energized</span></div>
+        </div>
+
+        <!-- Stress -->
+        <div class="form-section">
+          <div class="slider-header">
+            <h3 class="form-label">Stress Level</h3>
+            <span class="slider-value" id="stress-val">5</span>
+          </div>
+          <input type="range" id="stress-slider" class="slider slider-stress" min="1" max="10" value="5" step="1" />
+          <div class="slider-hints"><span>Calm</span><span>Overwhelmed</span></div>
+        </div>
+
+        <!-- Activity -->
+        <div class="form-section">
+          <div class="slider-header">
+            <h3 class="form-label">Physical Activity Today</h3>
+            <span class="slider-value" id="activity-val">5</span>
+          </div>
+          <input type="range" id="activity-slider" class="slider" min="1" max="10" value="5" step="1" />
+          <div class="slider-hints"><span>Sedentary</span><span>Very Active</span></div>
+        </div>
+
+        <!-- Sleep -->
+        <div class="form-section">
+          <h3 class="form-label">Hours of Sleep Last Night</h3>
+          <div class="sleep-input-wrap">
+            <input type="number" id="sleep-input" class="sleep-input" min="0" max="16" step="0.5" value="7"
+              placeholder="7" />
+            <span class="sleep-unit">hours</span>
+          </div>
+        </div>
+
+        <!-- Reflection -->
+        <div class="form-section">
+          <h3 class="form-label">Reflection <span class="optional">(optional)</span></h3>
+          <textarea id="reflection-input" class="reflection-textarea"
+            placeholder="What's on your mind today? Any wins, worries, or intentions..." maxlength="300"></textarea>
+          <div class="char-counter"><span id="char-count">0</span>/300</div>
+        </div>
+
+        <div id="checkin-error" class="error-msg" style="display:none"></div>
+        <button id="submit-checkin" class="btn-primary btn-full">Calculate My Wellness Score →</button>
+      </div>
+
+      <!-- Live Preview -->
+      <div class="checkin-preview">
+        <div class="preview-card">
+          <div class="preview-label">Live Score Preview</div>
+          <div class="preview-score" id="score-preview">--</div>
+          <div class="preview-status" id="score-preview-label">Select mood to begin</div>
+          <div class="preview-hint">Score updates as you fill in your data</div>
+        </div>
+        <div class="formula-card">
+          <div class="formula-title">Score Formula</div>
+          <div class="formula-body">
+            <div class="formula-row"><span>Energy</span><span>× 0.3</span></div>
+            <div class="formula-row"><span>(10 – Stress)</span><span>× 0.3</span></div>
+            <div class="formula-row"><span>Sleep Quality</span><span>× 0.2</span></div>
+            <div class="formula-row"><span>Activity</span><span>× 0.2</span></div>
+            <div class="formula-row formula-total"><span>Total</span><span>= 0–100</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="success-modal">
+      <div class="modal-card">
+        <div class="modal-icon">🎉</div>
+        <h2>Check-In Complete!</h2>
+        <p>Your wellness score today:</p>
+        <div class="modal-score" id="modal-score">--</div>
+        <p class="modal-sub">Redirecting to your dashboard...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD PAGE -->
+  <div id="page-dashboard" class="page">
+    <div class="page-header">
+      <h1>Your Dashboard</h1>
+      <p>Your wellness at a glance</p>
+    </div>
+
+    <!-- Empty state -->
+    <div id="dashboard-empty" class="empty-state" style="display:none">
+      <div class="empty-icon">📊</div>
+      <h3>No check-ins yet</h3>
+      <p>Complete your first daily check-in to see your wellness dashboard.</p>
+      <button class="btn-primary" data-nav="checkin">Start Check-In</button>
+    </div>
+
+    <div id="dashboard-content">
+      <!-- Score + Category Row -->
+      <div class="dashboard-top">
+        <div class="score-panel">
+          <div class="score-ring-wrap">
+            <svg viewBox="0 0 120 120" class="score-ring">
+              <circle cx="60" cy="60" r="54" fill="none" stroke="rgba(148,163,184,0.1)" stroke-width="8" />
+              <circle id="score-circle-fill" cx="60" cy="60" r="54" fill="none" stroke="#a78bfa" stroke-width="8"
+                stroke-linecap="round" transform="rotate(-90 60 60)" stroke-dasharray="339.3"
+                stroke-dashoffset="339.3" />
+            </svg>
+            <div class="score-ring-inner">
+              <div class="main-score" id="main-score">--</div>
+              <div class="score-max">/100</div>
+            </div>
+          </div>
+          <div id="score-label" class="score-status">Loading...</div>
+          <div id="last-checkin-date" class="score-date">—</div>
+        </div>
+
+        <div class="categories-panel">
+          <h3 class="panel-title">Category Breakdown</h3>
+          <div class="cat-row">
+            <span class="cat-name">💚 Physical</span>
+            <div class="cat-bar-wrap">
+              <div class="cat-bar" id="physical-bar"></div>
+            </div>
+            <span class="cat-val" id="physical-val">--</span>
+          </div>
+          <div class="cat-row">
+            <span class="cat-name">💙 Mental</span>
+            <div class="cat-bar-wrap">
+              <div class="cat-bar" id="mental-bar"></div>
+            </div>
+            <span class="cat-val" id="mental-val">--</span>
+          </div>
+          <div class="cat-row">
+            <span class="cat-name">💗 Emotional</span>
+            <div class="cat-bar-wrap">
+              <div class="cat-bar" id="emotional-bar"></div>
+            </div>
+            <span class="cat-val" id="emotional-val">--</span>
+          </div>
+
+          <div class="quick-stats">
+            <div class="qstat"><span class="qstat-val" id="stat-avg">--</span><span class="qstat-label">7-Day Avg</span>
+            </div>
+            <div class="qstat"><span class="qstat-val" id="stat-best">--</span><span class="qstat-label">Best
+                Score</span></div>
+            <div class="qstat"><span class="qstat-val" id="stat-streak">--</span><span
+                class="qstat-label">Check-Ins</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trend Chart -->
+      <div class="chart-panel">
+        <h3 class="panel-title">Wellness Trend (Last 7 Days)</h3>
+        <div class="chart-wrap">
+          <canvas id="trend-chart"></canvas>
+        </div>
+      </div>
+
+      <!-- AI Insights -->
+      <div class="insights-section">
+        <h3 class="panel-title">AI Insights</h3>
+        <div id="insights-container" class="insights-grid"></div>
+      </div>
+
+      <!-- Actions -->
+      <div class="dash-actions">
+        <button class="btn-primary" data-nav="checkin">New Check-In</button>
+        <button class="btn-ghost" data-nav="chat">Ask AI →</button>
+        <button class="btn-danger" id="clear-data-btn">Reset Data</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANALYTICS PAGE -->
+  <div id="page-analytics" class="page">
+    <div class="page-header">
+      <h1>Analytics & Trends</h1>
+      <p>Understand your patterns over time</p>
+    </div>
+
+    <div class="analytics-layout">
+      <!-- Reuse trend chart (separate canvas) -->
+      <div class="chart-panel">
+        <h3 class="panel-title">14-Day Wellness Trend</h3>
+        <div class="chart-wrap">
+          <canvas id="trend-chart"></canvas>
+        </div>
+      </div>
+
+      <!-- Mood Heatmap -->
+      <div class="chart-panel">
+        <h3 class="panel-title">Mood History</h3>
+        <div id="mood-heatmap" class="heatmap-grid"></div>
+      </div>
+
+      <!-- Stats grid -->
+      <div class="stats-cards">
+        <div class="stat-card">
+          <div class="stat-icon">📈</div>
+          <div class="stat-num" id="stat-avg">--</div>
+          <div class="stat-lbl">Average Score</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🏆</div>
+          <div class="stat-num" id="stat-best">--</div>
+          <div class="stat-lbl">Best Score</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📆</div>
+          <div class="stat-num" id="stat-streak">--</div>
+          <div class="stat-lbl">Total Check-Ins</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI CHAT PAGE -->
+  <div id="page-chat" class="page">
+    <div class="page-header">
+      <h1>AI Wellness Companion</h1>
+      <p>Evidence-based answers to your health questions</p>
+    </div>
+
+    <div class="chat-layout">
+      <div class="chat-window">
+        <div id="chat-log" class="chat-log"></div>
+        <div class="chat-chips">
+          <button class="chat-chip">How can I sleep better?</button>
+          <button class="chat-chip">I feel stressed</button>
+          <button class="chat-chip">Boost my energy</button>
+          <button class="chat-chip">Breathing exercises</button>
+          <button class="chat-chip">Improve my score</button>
+        </div>
+        <div class="chat-input-row">
+          <input id="chat-input" type="text" class="chat-input"
+            placeholder="Ask about sleep, stress, energy, mood..." />
+          <button id="chat-send" class="chat-send-btn">Send →</button>
+        </div>
+      </div>
+
+      <div class="chat-sidebar">
+        <div class="sidebar-card">
+          <h4>What I can help with</h4>
+          <ul>
+            <li>💤 Sleep optimization</li>
+            <li>🧘 Stress management</li>
+            <li>⚡ Energy boosting</li>
+            <li>🏃 Exercise guidance</li>
+            <li>💙 Mood improvement</li>
+            <li>😮‍💨 Breathing techniques</li>
+            <li>📊 Understanding your score</li>
+          </ul>
+        </div>
+        <div class="sidebar-card">
+          <h4>Note</h4>
+          <p>ZenVitals AI provides general wellness guidance based on established health research. It is not a
+            substitute for professional medical advice.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/logic.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/mood.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>
