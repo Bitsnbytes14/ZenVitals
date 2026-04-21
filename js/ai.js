@@ -1,3 +1,133 @@
+// AI — ZenVitals AI companion
+
+const AI = {
+  chat(message, data) {
+    message = message.toLowerCase();
+
+    if (!data) {
+      return "Start your daily check-in so I can give you personalized insights.";
+    }
+
+    if (message.includes("stress") || data.stress > 7) {
+      return "Based on your recent check-ins, your stress levels are high. Try a 5-minute breathing exercise or take a short break.";
+    }
+
+    if (data.energy < 4) {
+      return "Your energy levels seem low. Focus on hydration and proper sleep today.";
+    }
+
+    if (data.sleep < 5) {
+      return "You are not getting enough sleep. Try maintaining a consistent sleep routine.";
+    }
+
+    if (message.includes("motivation")) {
+      return "Start small. Even a 10-minute task can build momentum and boost your confidence.";
+    }
+
+    if (message.includes("sleep")) {
+      if (data.sleep >= 7) {
+        return "Great job on sleep! You're getting the recommended 7+ hours. Keep your consistent routine.";
+      }
+      return "Aim for 7-9 hours of sleep. Try winding down 30 minutes earlier tonight.";
+    }
+
+    if (message.includes("energy") || message.includes("tired")) {
+      if (data.energy >= 7) {
+        return "Your energy is looking good! Maintain it with regular movement and balanced meals.";
+      }
+      return "Low energy detected. Try a 10-minute walk, stay hydrated, and consider a power nap (20 mins max).";
+    }
+
+    if (message.includes("breathing") || message.includes("relax") || message.includes("calm")) {
+      return "Try the 4-7-8 technique: Inhale 4 seconds, hold 7 seconds, exhale 8 seconds. Repeat 3-4 times.";
+    }
+
+    if (message.includes("exercise") || message.includes("workout") || message.includes("activity")) {
+      return "Aim for 150 minutes of moderate activity per week. Start with 10-minute walks and build up gradually.";
+    }
+
+    if (message.includes("score") || message.includes("wellness")) {
+      return `Your current wellness score is ${data.score || '--'}. Focus on your lowest category to improve it.`;
+    }
+
+    return "You're doing well. Stay consistent with your habits and keep tracking your wellness.";
+  },
+
+  generateInsights(data) {
+    const insights = [];
+
+    if (!data) return insights;
+
+    if (data.energy < 4) {
+      insights.push({
+        type: 'warning',
+        icon: '⚡',
+        title: 'Low Energy Alert',
+        body: 'Your energy levels are consistently low. This could be affecting your productivity and mood.',
+        action: 'Try a 10-minute brisk walk or add protein to your meals.'
+      });
+    }
+
+    if (data.stress > 7) {
+      insights.push({
+        type: 'warning',
+        icon: '🧘',
+        title: 'High Stress Detected',
+        body: 'Your stress levels are elevated. Chronic stress can impact both mental and physical health.',
+        action: 'Practice the 4-7-8 breathing technique twice today.'
+      });
+    }
+
+    if (data.sleep < 5) {
+      insights.push({
+        type: 'warning',
+        icon: '💤',
+        title: 'Sleep Deficit',
+        body: 'You are not getting enough sleep. Sleep is essential for recovery and cognitive function.',
+        action: 'Set a bedtime alarm and aim for 7+ hours tonight.'
+      });
+    }
+
+    if (data.activity < 4) {
+      insights.push({
+        type: 'info',
+        icon: '🏃',
+        title: 'Movement Needed',
+        body: 'Your activity levels could be higher. Regular movement improves mood and energy.',
+        action: 'Take a short walk during your next break.'
+      });
+    }
+
+    if (data.score >= 70) {
+      insights.push({
+        type: 'positive',
+        icon: '✨',
+        title: 'Strong Wellness',
+        body: 'You are maintaining a healthy wellness score. Keep up the great work!',
+        action: 'Stay consistent with your current habits.'
+      });
+    } else if (data.score >= 40) {
+      insights.push({
+        type: 'info',
+        icon: '📈',
+        title: 'Room to Improve',
+        body: 'Your score shows potential for improvement. Small daily changes can make a big difference.',
+        action: 'Focus on one area to improve each day.'
+      });
+    } else {
+      insights.push({
+        type: 'warning',
+        icon: '💪',
+        title: 'Wellness Priority',
+        body: 'Your overall wellness needs attention. Consider starting with sleep and stress management.',
+        action: 'Begin with a 10-minute relaxation exercise today.'
+      });
+    }
+
+    return insights;
+  }
+};
+
 // dashboard.js — ZenVitals dashboard renderer
 
 const Dashboard = {
