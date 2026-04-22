@@ -23,7 +23,7 @@ const Chat = {
       this._appendMessage('user', msg);
       input.value = '';
       setTimeout(() => {
-        const latest = Storage.getLatestCheckIn();
+        const latest = AppStorage.getLatestCheckIn();
         const response = AI.chat(msg, latest);
         this._appendMessage('bot', response);
       }, 600 + Math.random() * 400);
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Navigation.init();
 
   // Seed demo data if no check-ins exist
-  if (!Storage.getLatestCheckIn()) {
+  if (!AppStorage.getLatestCheckIn()) {
     _seedDemoData();
   }
 
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (clearBtn) {
     clearBtn.addEventListener('click', () => {
       if (confirm('Reset all your wellness data? This cannot be undone.')) {
-        Storage.clearAll();
+        AppStorage.clearAll();
         Dashboard.refresh();
         alert('Data cleared. Start fresh with a new check-in!');
       }
@@ -104,7 +104,7 @@ function _seedDemoData() {
   samples.forEach((s, i) => {
     const score = Logic.calculateScore(s);
     const categories = Logic.getCategoryScores(s);
-    const all = Storage.getCheckIns();
+    const all = AppStorage.getCheckIns();
     all.push({
       ...s,
       score,
@@ -113,6 +113,6 @@ function _seedDemoData() {
       id: Date.now() + i,
       timestamp: new Date().toISOString(),
     });
-    Storage.save(Storage.KEYS.CHECKINS, all);
+    AppStorage.save(AppStorage.KEYS.CHECKINS, all);
   });
 }

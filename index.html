@@ -12,6 +12,591 @@
     rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <link rel="stylesheet" href="css/styles.css" />
+
+  <style>
+    /* ── VISION & MISSION SECTION ── */
+    .vm-section {
+      padding: 5rem 2rem;
+      background: var(--bg);
+    }
+
+    .vm-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+      .vm-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .vm-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.25rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color var(--transition), transform var(--transition);
+    }
+
+    .vm-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .vm-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    .vm-card.vision::before {
+      background: linear-gradient(90deg, var(--accent), var(--blue));
+    }
+
+    .vm-card.mission::before {
+      background: linear-gradient(90deg, var(--green), var(--accent));
+    }
+
+    .vm-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.7rem;
+      border-radius: 100px;
+      margin-bottom: 1rem;
+    }
+
+    .vm-card.vision .vm-tag {
+      background: rgba(167, 139, 250, 0.12);
+      color: var(--accent);
+    }
+
+    .vm-card.mission .vm-tag {
+      background: rgba(74, 222, 128, 0.12);
+      color: var(--green);
+    }
+
+    .vm-icon {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .vm-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .vm-card p {
+      font-size: 0.93rem;
+      color: var(--text-2);
+      line-height: 1.75;
+    }
+
+    /* ── ENERGY-BASED WELLNESS CONCEPT ── */
+    .energy-section {
+      padding: 5rem 2rem;
+      background: var(--bg-2);
+    }
+
+    .energy-intro {
+      max-width: 680px;
+      margin: 0 auto 3.5rem;
+      text-align: center;
+    }
+
+    .energy-intro p {
+      font-size: 1rem;
+      color: var(--text-2);
+      line-height: 1.75;
+      margin-top: 1rem;
+    }
+
+    .energy-pillars {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      max-width: 1100px;
+      margin: 0 auto 3rem;
+    }
+
+    .pillar-card {
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      text-align: center;
+      transition: border-color var(--transition), transform var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pillar-card:hover {
+      border-color: var(--border-2);
+      transform: translateY(-4px);
+    }
+
+    .pillar-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+    }
+
+    .pillar-card.physical::after {
+      background: var(--green);
+    }
+
+    .pillar-card.mental::after {
+      background: var(--blue);
+    }
+
+    .pillar-card.emotional::after {
+      background: var(--pink);
+    }
+
+    .pillar-card.social::after {
+      background: var(--yellow);
+    }
+
+    .pillar-icon {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+
+    .pillar-card h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: var(--text);
+    }
+
+    .pillar-card p {
+      font-size: 0.83rem;
+      color: var(--text-2);
+      line-height: 1.6;
+    }
+
+    .pillar-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 100px;
+      margin-bottom: 0.75rem;
+    }
+
+    .pillar-card.physical .pillar-badge {
+      background: rgba(74, 222, 128, 0.12);
+      color: var(--green);
+    }
+
+    .pillar-card.mental .pillar-badge {
+      background: rgba(96, 165, 250, 0.12);
+      color: var(--blue);
+    }
+
+    .pillar-card.emotional .pillar-badge {
+      background: rgba(244, 114, 182, 0.12);
+      color: var(--pink);
+    }
+
+    .pillar-card.social .pillar-badge {
+      background: rgba(251, 191, 36, 0.12);
+      color: var(--yellow);
+    }
+
+    .energy-flow {
+      max-width: 860px;
+      margin: 0 auto;
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+    }
+
+    .energy-flow-title {
+      text-align: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-3);
+      margin-bottom: 2rem;
+    }
+
+    .flow-steps {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+
+    .flow-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      text-align: center;
+      padding: 0 1rem;
+      flex: 1;
+      min-width: 110px;
+    }
+
+    .flow-step-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      border: 1.5px solid var(--border-2);
+      background: var(--bg-4);
+    }
+
+    .flow-step-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .flow-step-sub {
+      font-size: 0.72rem;
+      color: var(--text-3);
+    }
+
+    .flow-arrow {
+      font-size: 1.2rem;
+      color: var(--accent);
+      flex-shrink: 0;
+      padding: 0 0.25rem;
+    }
+
+    @media (max-width: 640px) {
+      .flow-steps {
+        flex-direction: column;
+      }
+
+      .flow-arrow {
+        transform: rotate(90deg);
+      }
+    }
+
+    /* ── PROFILE PAGE ── */
+    .profile-layout {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 2rem;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .profile-layout { grid-template-columns: 1fr; padding: 1rem; }
+    }
+    .profile-card {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+    }
+    .profile-avatar {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; margin: 0 auto 1rem; border: 3px solid var(--border-2);
+    }
+    .profile-display-name {
+      font-family: var(--font-display);
+      font-size: 1.4rem; font-weight: 300;
+      text-align: center; color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+    .profile-subtitle {
+      font-size: 0.8rem; color: var(--text-3);
+      text-align: center; margin-bottom: 1.5rem;
+    }
+    .profile-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem; margin-bottom: 1.5rem;
+    }
+    .pstat {
+      text-align: center;
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: 10px; padding: 0.75rem 0.5rem;
+    }
+    .pstat-val {
+      display: block; font-size: 1.4rem;
+      font-weight: 700; color: var(--accent);
+    }
+    .pstat-label {
+      font-size: 0.68rem; color: var(--text-3);
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .profile-form-group {
+      margin-bottom: 1.25rem;
+    }
+    .profile-form-group label {
+      display: block; font-size: 0.78rem; font-weight: 600;
+      color: var(--text-2); text-transform: uppercase;
+      letter-spacing: 0.08em; margin-bottom: 0.4rem;
+    }
+    .profile-input, .profile-textarea {
+      width: 100%; background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.65rem 0.85rem;
+      color: var(--text); font-family: var(--font-body);
+      font-size: 0.92rem; box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+    .profile-input:focus, .profile-textarea:focus {
+      outline: none; border-color: var(--accent);
+    }
+    .profile-textarea { min-height: 80px; resize: vertical; }
+    /* History */
+    .history-row {
+      display: grid;
+      grid-template-columns: 80px 1fr 48px 90px;
+      align-items: center; gap: 0.5rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85rem;
+    }
+    .history-row:last-child { border-bottom: none; }
+    .history-date { color: var(--text-3); }
+    .history-mood { color: var(--text-2); text-transform: capitalize; }
+    .history-score { font-weight: 700; text-align: center; }
+    .history-label { font-size: 0.78rem; }
+    @media (max-width: 500px) {
+      .history-row { grid-template-columns: 70px 1fr 44px; }
+      .history-label { display: none; }
+    }
+    .science-section {
+      padding: 5rem 2rem;
+      background: #0a0f1a;
+    }
+
+    .science-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto 2.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .science-grid {
+        grid-template-columns: 1fr;
+        max-width: 520px;
+      }
+    }
+
+    .sci-card {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 16px;
+      padding: 2.25rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .sci-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      border-radius: 16px 16px 0 0;
+    }
+
+    .sci-card.ai::before    { background: #a78bfa; }
+    .sci-card.ayur::before  { background: #4ade80; }
+    .sci-card.accup::before { background: #f472b6; }
+
+    .sci-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .sci-card.ai:hover    { border-color: #a78bfa; }
+    .sci-card.ayur:hover  { border-color: #4ade80; }
+    .sci-card.accup:hover { border-color: #f472b6; }
+
+    .sci-card-icon {
+      font-size: 2.4rem;
+      margin-bottom: 1rem;
+      display: block;
+      line-height: 1;
+    }
+
+    .sci-card-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.22rem 0.65rem;
+      border-radius: 100px;
+      margin-bottom: 1rem;
+    }
+
+    .sci-card.ai    .sci-card-tag { background: rgba(167,139,250,0.12); color: #a78bfa; }
+    .sci-card.ayur  .sci-card-tag { background: rgba(74,222,128,0.12);  color: #4ade80; }
+    .sci-card.accup .sci-card-tag { background: rgba(244,114,182,0.12); color: #f472b6; }
+
+    .sci-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 0.85rem;
+      line-height: 1.3;
+    }
+
+    .sci-card p {
+      font-size: 0.9rem;
+      color: var(--text-2);
+      line-height: 1.78;
+      flex: 1;
+    }
+
+    /* integration block */
+    .sci-integration {
+      max-width: 1100px;
+      margin: 0 auto 1.75rem;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+    }
+
+    .sci-integration-title {
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 2.25rem;
+    }
+
+    .sci-flow {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: center;
+      gap: 0;
+    }
+
+    @media (max-width: 700px) {
+      .sci-flow {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+      }
+      .sci-flow-arrow {
+        transform: rotate(90deg);
+        justify-self: center;
+        padding: 0.25rem 0;
+      }
+    }
+
+    .sci-flow-step {
+      text-align: center;
+      padding: 1.5rem 1.25rem;
+      border-radius: 12px;
+      border: 1px solid #1e293b;
+      background: rgba(255,255,255,0.018);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      transition: border-color 0.25s ease;
+    }
+
+    .sci-flow-step:hover { border-color: #334155; }
+
+    .sci-flow-step-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      border: 1.5px solid;
+    }
+
+    .sci-flow-step.fs-ai   .sci-flow-step-icon { border-color: rgba(167,139,250,0.4); background: rgba(167,139,250,0.08); }
+    .sci-flow-step.fs-ayur .sci-flow-step-icon { border-color: rgba(74,222,128,0.4);  background: rgba(74,222,128,0.08); }
+    .sci-flow-step.fs-accu .sci-flow-step-icon { border-color: rgba(244,114,182,0.4); background: rgba(244,114,182,0.08); }
+
+    .sci-flow-step-name {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .sci-flow-step.fs-ai   .sci-flow-step-name { color: #a78bfa; }
+    .sci-flow-step.fs-ayur .sci-flow-step-name { color: #4ade80; }
+    .sci-flow-step.fs-accu .sci-flow-step-name { color: #f472b6; }
+
+    .sci-flow-step-desc {
+      font-size: 0.78rem;
+      color: var(--text-3);
+      line-height: 1.55;
+      max-width: 220px;
+    }
+
+    .sci-flow-arrow {
+      font-size: 1.4rem;
+      color: var(--accent);
+      padding: 0 0.75rem;
+      opacity: 0.65;
+      flex-shrink: 0;
+    }
+
+    .sci-disclaimer {
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-3);
+      line-height: 1.6;
+      padding: 0 1rem;
+      opacity: 0.8;
+    }
+  </style>
 </head>
 
 <body>
@@ -29,7 +614,6 @@
       <a data-nav="analytics" class="nav-link">Analytics</a>
       <a data-nav="chat" class="nav-link">AI Chat</a>
       <a data-nav="booking" class="nav-link">Booking</a>
-      <a data-nav="profile" class="nav-link">Profile</a>
       <a data-nav="blog" class="nav-link">Blog</a>
       <button class="nav-cta" data-nav="checkin">Start Today</button>
     </div>
@@ -45,9 +629,8 @@
     <a data-nav="dashboard" class="nav-link">Dashboard</a>
     <a data-nav="analytics" class="nav-link">Analytics</a>
     <a data-nav="chat" class="nav-link">AI Chat</a>
-      <a data-nav="booking" class="nav-link">Booking</a>
-      <a data-nav="profile" class="nav-link">Profile</a>
-      <a data-nav="blog" class="nav-link">Blog</a>
+    <a data-nav="booking" class="nav-link">Booking</a>
+    <a data-nav="blog" class="nav-link">Blog</a>
   </div>
 
   <!-- ── PAGES ─────────────────────────────────────── -->
@@ -115,11 +698,116 @@
       </div>
     </section>
 
+    <!-- ── VISION & MISSION ── (NEW) -->
+    <section class="vm-section">
+      <div class="section-header">
+        <div class="section-tag">Our Purpose</div>
+        <h2 class="section-title">Vision & Mission</h2>
+      </div>
+      <div class="vm-grid">
+        <div class="vm-card vision">
+          <span class="vm-tag">Vision</span>
+          <span class="vm-icon">🔭</span>
+          <h3>A world where wellness is measurable, personal, and proactive</h3>
+          <p>We envision a future where every individual has access to real-time, intelligent insight into their own
+            health — not after symptoms appear, but before they do. ZenVitals aims to shift wellness from reactive to
+            predictive, making personalised health guidance as routine as checking the time.</p>
+        </div>
+        <div class="vm-card mission">
+          <span class="vm-tag">Mission</span>
+          <span class="vm-icon">🎯</span>
+          <h3>Empower every person with a daily clarity of mind, body, and energy</h3>
+          <p>Our mission is to make structured, data-driven wellness accessible to anyone — regardless of background or
+            expertise. Through a 60-second daily check-in and AI-powered feedback, ZenVitals transforms raw
+            self-awareness into consistent, actionable improvement across physical, mental, and emotional health.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ENERGY-BASED WELLNESS CONCEPT ── (NEW) -->
+    <section class="energy-section">
+      <div class="section-header">
+        <div class="section-tag">Our Framework</div>
+        <h2 class="section-title">Energy-Based Wellness</h2>
+      </div>
+      <div class="energy-intro">
+        <p>ZenVitals is built on a core belief: <strong style="color:var(--text)">your energy is the master currency of
+            wellness.</strong> Every dimension of your health — physical stamina, mental clarity, and emotional
+          resilience — is a direct expression of how well you generate, protect, and restore your energy each day.</p>
+      </div>
+
+      <div class="energy-pillars">
+        <div class="pillar-card physical">
+          <span class="pillar-badge">Physical</span>
+          <span class="pillar-icon">💪</span>
+          <h4>Body Energy</h4>
+          <p>Sleep, movement, and nutrition are the three levers of physical energy. When optimised together, they form
+            the foundation all other wellness dimensions rest upon.</p>
+        </div>
+        <div class="pillar-card mental">
+          <span class="pillar-badge">Mental</span>
+          <span class="pillar-icon">🧠</span>
+          <h4>Cognitive Energy</h4>
+          <p>Focus, clarity, and decision quality are outputs of mental energy. Chronic stress and sleep debt silently
+            deplete this reserve — often before you notice.</p>
+        </div>
+        <div class="pillar-card emotional">
+          <span class="pillar-badge">Emotional</span>
+          <span class="pillar-icon">💙</span>
+          <h4>Emotional Energy</h4>
+          <p>Your mood, motivation, and capacity to connect with others depends on emotional reserves. Low emotional
+            energy manifests as irritability, withdrawal, and reduced resilience.</p>
+        </div>
+        <div class="pillar-card social">
+          <span class="pillar-badge">Recovery</span>
+          <span class="pillar-icon">🔄</span>
+          <h4>Recovery Energy</h4>
+          <p>Rest, reflection, and decompression replenish all other energy types. Without intentional recovery, even
+            strong physical and mental inputs yield diminishing returns.</p>
+        </div>
+      </div>
+
+      <div class="energy-flow">
+        <div class="energy-flow-title">How Energy Flows Through Your Day</div>
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-step-icon">😴</div>
+            <div class="flow-step-label">Sleep</div>
+            <div class="flow-step-sub">Baseline restore</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-icon">⚡</div>
+            <div class="flow-step-label">Energy Peak</div>
+            <div class="flow-step-sub">Deep work window</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-icon">🧘</div>
+            <div class="flow-step-label">Stress Check</div>
+            <div class="flow-step-sub">Regulate drain</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-icon">🏃</div>
+            <div class="flow-step-label">Activity</div>
+            <div class="flow-step-sub">Stimulate recovery</div>
+          </div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">
+            <div class="flow-step-icon">📊</div>
+            <div class="flow-step-label">ZenVitals Score</div>
+            <div class="flow-step-sub">Daily insight</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Services -->
     <section class="section section-dark">
       <div class="section-header">
         <div class="section-tag">Services</div>
-        <h2 class="section-title">Everything you need</h2>
+        <h2 class="section-title">Individual &amp; Organisational Wellness</h2>
       </div>
       <div class="services-grid">
         <div class="service-card">
@@ -152,6 +840,16 @@
           <span class="service-icon">🔒</span>
           <h3>Private & Local</h3>
           <p>All data stored locally on your device. Zero cloud uploads. Your wellness data stays yours.</p>
+        </div>
+        <div class="service-card" style="border-top:3px solid #60a5fa">
+          <span class="service-icon">🏢</span>
+          <h3>Corporate Wellness Programs</h3>
+          <p>Structured wellness initiatives for teams and organisations — group assessments, aggregate insights, and custom health benchmarks designed for the modern workplace.</p>
+        </div>
+        <div class="service-card" style="border-top:3px solid #4ade80">
+          <span class="service-icon">🤝</span>
+          <h3>Team Health Assessments</h3>
+          <p>Facilitate anonymous team-level wellness check-ins and trend reports, helping managers identify burnout risk and foster a proactive wellbeing culture.</p>
         </div>
       </div>
     </section>
@@ -193,6 +891,76 @@
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- ── SCIENCE BEHIND ZENVITALS ── -->
+    <section class="science-section">
+      <div class="section-header">
+        <div class="section-tag">Our Science</div>
+        <h2 class="section-title">Ancient wisdom. Modern intelligence.</h2>
+      </div>
+
+      <!-- Three Pillar Cards -->
+      <div class="science-grid">
+
+        <!-- AI -->
+        <div class="sci-card ai">
+          <span class="sci-card-icon">🤖</span>
+          <span class="sci-card-tag">Artificial Intelligence</span>
+          <h3>Data-driven insight, delivered in real time</h3>
+          <p>ZenVitals' scoring engine applies a weighted input model — energy (×0.3), stress (×0.3), sleep quality (×0.2), and activity (×0.2) — to generate a precise daily wellness score between 0 and 100. Beyond the score, the AI detects emerging patterns across your check-in history to surface adaptive, context-aware recommendations. The more consistently you check in, the sharper the insights become.</p>
+        </div>
+
+        <!-- Ayurveda -->
+        <div class="sci-card ayur">
+          <span class="sci-card-icon">🌿</span>
+          <span class="sci-card-tag">Ayurveda</span>
+          <h3>Personalised through your natural constitution</h3>
+          <p>Ayurveda categorises human physiology into three bioenergetic types — Vata (air &amp; movement), Pitta (fire &amp; transformation), and Kapha (earth &amp; stability). ZenVitals applies these dosha principles as a personalisation layer: your energy patterns, sleep tendencies, and stress responses help identify which constitution influences your current state, allowing recommendations to be meaningfully tailored — not one-size-fits-all.</p>
+        </div>
+
+        <!-- Acupressure -->
+        <div class="sci-card accup">
+          <span class="sci-card-icon">👆</span>
+          <span class="sci-card-tag">Acupressure</span>
+          <h3>Targeted techniques for stress and energy</h3>
+          <p>Acupressure is a practitioner-recognised complementary technique based on stimulating specific anatomical pressure points. ZenVitals references clinically studied sites such as LI4 (headache &amp; tension), PC6 (anxiety &amp; nausea), and GV20 (mental clarity &amp; fatigue) to inform targeted intervention suggestions. It is presented as a practical, non-invasive complement to lifestyle change — not a substitute for medical care.</p>
+        </div>
+
+      </div>
+
+      <!-- How They Work Together -->
+      <div class="sci-integration">
+        <div class="sci-integration-title">How They Work Together</div>
+        <div class="sci-flow">
+
+          <div class="sci-flow-step fs-ai">
+            <div class="sci-flow-step-icon">🤖</div>
+            <div class="sci-flow-step-name">AI Analyses</div>
+            <div class="sci-flow-step-desc">Scores your energy, stress, sleep &amp; activity. Identifies patterns and flags imbalances across your check-in history.</div>
+          </div>
+
+          <div class="sci-flow-arrow">→</div>
+
+          <div class="sci-flow-step fs-ayur">
+            <div class="sci-flow-step-icon">🌿</div>
+            <div class="sci-flow-step-name">Ayurveda Personalises</div>
+            <div class="sci-flow-step-desc">Maps your patterns to a dosha type — Vata, Pitta, or Kapha — to tailor the style and focus of your recommendations.</div>
+          </div>
+
+          <div class="sci-flow-arrow">→</div>
+
+          <div class="sci-flow-step fs-accu">
+            <div class="sci-flow-step-icon">👆</div>
+            <div class="sci-flow-step-name">Acupressure Intervenes</div>
+            <div class="sci-flow-step-desc">Suggests relevant pressure point techniques (LI4, PC6, GV20) as fast, actionable interventions for stress or low energy.</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Disclaimer -->
+      <p class="sci-disclaimer">⚠️ ZenVitals integrates these frameworks as complementary wellness guidance. This is not medical diagnosis or treatment.</p>
     </section>
 
     <!-- Footer -->
@@ -444,17 +1212,17 @@
       <div class="stats-cards">
         <div class="stat-card">
           <div class="stat-icon">📈</div>
-          <div class="stat-num" id="stat-avg">--</div>
+          <div class="stat-num" id="analytics-avg">--</div>
           <div class="stat-lbl">Average Score</div>
         </div>
         <div class="stat-card">
           <div class="stat-icon">🏆</div>
-          <div class="stat-num" id="stat-best">--</div>
+          <div class="stat-num" id="analytics-best">--</div>
           <div class="stat-lbl">Best Score</div>
         </div>
         <div class="stat-card">
           <div class="stat-icon">📆</div>
-          <div class="stat-num" id="stat-streak">--</div>
+          <div class="stat-num" id="analytics-total">--</div>
           <div class="stat-lbl">Total Check-Ins</div>
         </div>
       </div>
@@ -562,68 +1330,6 @@
     </div>
   </div>
 
-  <!-- PROFILE PAGE -->
-  <div id="page-profile" class="page">
-    <div class="page-header">
-      <h1>Your Profile</h1>
-      <p>Manage your personal information</p>
-    </div>
-
-    <div class="profile-layout">
-      <div class="profile-card">
-        <div class="profile-avatar">
-          <span class="avatar-icon">👤</span>
-        </div>
-
-        <div class="profile-fields">
-          <div class="form-section">
-            <h3 class="form-label">Name</h3>
-            <input type="text" id="profile-name-input" class="form-input profile-input" value="Guest User" readonly />
-            <span id="profile-name" class="profile-display"></span>
-          </div>
-
-          <div class="form-section">
-            <h3 class="form-label">Email</h3>
-            <input type="email" id="profile-email-input" class="form-input profile-input" value="Not set" readonly />
-            <span id="profile-email" class="profile-display"></span>
-          </div>
-        </div>
-
-        <div class="profile-actions">
-          <button id="edit-profile-btn" class="btn-primary">Edit Profile</button>
-          <button id="save-profile-btn" class="btn-primary" style="display:none">Save</button>
-          <button id="cancel-edit-btn" class="btn-ghost" style="display:none">Cancel</button>
-        </div>
-      </div>
-
-      <div class="profile-stats">
-        <h3 class="panel-title">Your Statistics</h3>
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-icon">📝</div>
-            <div class="stat-num" id="stat-total-checkins">--</div>
-            <div class="stat-lbl">Total Check-ins</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon">⭐</div>
-            <div class="stat-num" id="stat-latest-score">--</div>
-            <div class="stat-lbl">Latest Score</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon">📊</div>
-            <div class="stat-num" id="stat-avg-score">--</div>
-            <div class="stat-lbl">Average Score</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon">🏆</div>
-            <div class="stat-num" id="stat-best-score">--</div>
-            <div class="stat-lbl">Best Score</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- BLOG PAGE -->
   <div id="page-blog" class="page">
     <div class="page-header">
@@ -652,7 +1358,6 @@
   <script src="js/navigation.js"></script>
   <script src="js/main.js"></script>
   <script src="js/booking.js"></script>
-  <script src="js/profile.js"></script>
   <script src="js/blog.js"></script>
 </body>
 

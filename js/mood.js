@@ -135,7 +135,7 @@ const Mood = {
       date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }),
     };
 
-    Storage.saveCheckIn(entry);
+    AppStorage.saveCheckIn(entry);
     this._showSuccess(score);
     Dashboard.refresh();
   },

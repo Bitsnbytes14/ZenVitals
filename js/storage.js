@@ -1,9 +1,8 @@
 // storage.js — ZenVitals data layer
 
-const Storage = {
+window.AppStorage = {
   KEYS: {
     CHECKINS: 'zv_checkins',
-    PROFILE: 'zv_profile',
     SETTINGS: 'zv_settings',
   },
 

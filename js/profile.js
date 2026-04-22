@@ -1,134 +1,130 @@
 // profile.js — ZenVitals User Profile Module
 
 const Profile = {
-  KEY: 'zv_user_profile',
-  editing: false,
+  KEY: 'zen_profile',
 
+  // ── Read raw profile object from localStorage ────────────────
+  load() {
+    try {
+      const raw = localStorage.getItem(this.KEY);
+      return raw ? JSON.parse(raw) : { name: '', email: '', about: '' };
+    } catch (e) {
+      return { name: '', email: '', about: '' };
+    }
+  },
+
+  // ── Write profile to localStorage ───────────────────────────
+  save(name, email, about) {
+    localStorage.setItem(this.KEY, JSON.stringify({ name, email, about }));
+  },
+
+  // ── Called by navigation.js each time Profile page is visited ─
   init() {
-    this._bindEdit();
-    this._loadProfile();
+    this._fill();
+    this._stats();
+    this._history();
   },
 
-  _bindEdit() {
-    const btn = document.getElementById('edit-profile-btn');
-    if (btn) {
-      btn.addEventListener('click', () => this._toggleEdit());
-    }
+  // ── Populate inputs from saved data ─────────────────────────
+  _fill() {
+    const p = this.load();
+    const get = (id) => document.getElementById(id);
 
-    const saveBtn = document.getElementById('save-profile-btn');
-    if (saveBtn) {
-      saveBtn.addEventListener('click', () => this._saveProfile());
-    }
-
-    const cancelBtn = document.getElementById('cancel-edit-btn');
-    if (cancelBtn) {
-      cancelBtn.addEventListener('click', () => this._cancelEdit());
-    }
+    if (get('profile-name')) get('profile-name').value = p.name || '';
+    if (get('profile-email')) get('profile-email').value = p.email || '';
+    if (get('profile-bio')) get('profile-bio').value = p.about || '';
+    if (get('profile-display-name')) get('profile-display-name').textContent = p.name || 'Wellness User';
   },
 
-  _loadProfile() {
-    const profile = Storage.load(this.KEY) || this._defaultProfile();
-    const nameEl = document.getElementById('profile-name');
-    const emailEl = document.getElementById('profile-email');
+  // ── Stats panel (check-ins count, latest score, avg) ─────────
+  _stats() {
+    const checkIns = AppStorage.getCheckIns();
+    const latest = AppStorage.getLatestCheckIn();
+    const get = (id) => document.getElementById(id);
 
-    if (nameEl) nameEl.textContent = profile.name || 'Guest User';
-    if (emailEl) emailEl.textContent = profile.email || 'Not set';
+    if (get('profile-total-checkins'))
+      get('profile-total-checkins').textContent = checkIns.length;
 
-    this._loadStats();
-    this._setFieldsReadonly(true);
-  },
+    if (get('profile-latest-score'))
+      get('profile-latest-score').textContent = latest ? (latest.score || '--') : '--';
 
-  _loadStats() {
-    const latest = Storage.getLatestCheckIn();
-    const checkIns = Storage.getCheckIns();
-    const scores = checkIns.map(c => c.score).filter(Boolean);
-
-    const totalCheckins = checkIns.length;
-    const latestScore = latest?.score || '--';
-    const avgScore = scores.length ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : '--';
-    const bestScore = scores.length ? Math.max(...scores) : '--';
-
-    const el = document.getElementById('stat-total-checkins');
-    if (el) el.textContent = totalCheckins;
-
-    const el2 = document.getElementById('stat-latest-score');
-    if (el2) el2.textContent = latestScore;
-
-    const el3 = document.getElementById('stat-avg-score');
-    if (el3) el3.textContent = avgScore;
-
-    const el4 = document.getElementById('stat-best-score');
-    if (el4) el4.textContent = bestScore;
-  },
-
-  _toggleEdit() {
-    this.editing = !this.editing;
-    const editBtn = document.getElementById('edit-profile-btn');
-    const saveBtn = document.getElementById('save-profile-btn');
-    const cancelBtn = document.getElementById('cancel-edit-btn');
-    const inputs = document.querySelectorAll('.profile-input');
-
-    if (this.editing) {
-      inputs.forEach(i => (i.readOnly = false));
-      if (editBtn) editBtn.style.display = 'none';
-      if (saveBtn) saveBtn.style.display = 'inline-block';
-      if (cancelBtn) cancelBtn.style.display = 'inline-block';
+    if (get('profile-avg-score')) {
+      if (checkIns.length > 0) {
+        const avg = Math.round(checkIns.reduce((s, c) => s + (c.score || 0), 0) / checkIns.length);
+        get('profile-avg-score').textContent = avg;
+      } else {
+        get('profile-avg-score').textContent = '--';
+      }
     }
   },
 
-  _saveProfile() {
-    const nameInput = document.getElementById('profile-name-input');
-    const emailInput = document.getElementById('profile-email-input');
+  // ── Recent assessment history rows ───────────────────────────
+  _history() {
+    const container = document.getElementById('profile-history');
+    if (!container) return;
 
-    if (!nameInput || !emailInput) return;
-
-    const name = nameInput.value.trim();
-    const email = emailInput.value.trim();
-
-    if (!name) {
-      nameInput.focus();
+    const checkIns = AppStorage.getCheckIns();
+    if (!checkIns.length) {
+      container.innerHTML = '<p class="empty-text">No check-ins yet. Complete your first check-in to see your history.</p>';
       return;
     }
 
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      emailInput.focus();
-      return;
-    }
-
-    const profile = {
-      name: name || 'Guest User',
-      email: email || 'Not set',
-      updatedAt: new Date().toISOString()
-    };
-
-    Storage.save(this.KEY, profile);
-    this.editing = false;
-    this._loadProfile();
+    const emoji = { great: '😄', good: '🙂', okay: '😐', low: '😔', awful: '😣' };
+    container.innerHTML = [...checkIns].reverse().slice(0, 10).map(c => {
+      const lbl = Logic.getScoreLabel(c.score || 0);
+      return `<div class="history-row">
+        <span class="history-date">${c.date || '—'}</span>
+        <span class="history-mood">${emoji[c.mood] || '•'} ${c.mood || ''}</span>
+        <span class="history-score" style="color:${lbl.color}">${c.score || '--'}</span>
+        <span class="history-label" style="color:${lbl.color}">${lbl.label}</span>
+      </div>`;
+    }).join('');
   },
 
-  _cancelEdit() {
-    this._loadProfile();
+  // ── Show inline feedback ─────────────────────────────────────
+  _msg(text, ok) {
+    const el = document.getElementById('profile-msg');
+    if (!el) return;
+    el.textContent = text;
+    el.style.cssText = `display:block;font-size:0.85rem;padding:0.4rem 0;color:${ok ? '#4ade80' : '#f87171'};`;
+    clearTimeout(this._t);
+    this._t = setTimeout(() => { el.style.display = 'none'; }, 3500);
   },
-
-  _setFieldsReadonly(readonly) {
-    const inputs = document.querySelectorAll('.profile-input');
-    inputs.forEach(i => (i.readOnly = readonly));
-
-    const editBtn = document.getElementById('edit-profile-btn');
-    const saveBtn = document.getElementById('save-profile-btn');
-    const cancelBtn = document.getElementById('cancel-edit-btn');
-
-    if (readonly) {
-      if (editBtn) editBtn.style.display = 'inline-block';
-      if (saveBtn) saveBtn.style.display = 'none';
-      if (cancelBtn) cancelBtn.style.display = 'none';
-    }
-  },
-
-  _defaultProfile() {
-    return {
-      name: 'Guest User',
-      email: 'Not set'
-    };
-  }
 };
+
+// ── Bootstrap: runs once when scripts finish loading ────────────
+// Binds the Save button directly — no dependency on navigation.js calling Profile.init()
+document.addEventListener('DOMContentLoaded', function () {
+
+  // 1. Pre-fill fields if saved data already exists
+  Profile._fill();
+
+  // 2. Wire Save button
+  const btn = document.getElementById('profile-save-btn');
+  if (btn) {
+    btn.addEventListener('click', function () {
+      const name = (document.getElementById('profile-name')?.value || '').trim();
+      const email = (document.getElementById('profile-email')?.value || '').trim();
+      const about = (document.getElementById('profile-bio')?.value || '').trim();
+
+      // Validation
+      if (!name || !email) {
+        Profile._msg('Please enter your name and email.', false);
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        Profile._msg('Please enter a valid email address.', false);
+        return;
+      }
+
+      // Save to localStorage key: zen_profile
+      Profile.save(name, email, about);
+
+      // Update avatar display name immediately
+      const d = document.getElementById('profile-display-name');
+      if (d) d.textContent = name;
+
+      Profile._msg('✓ Profile saved successfully.', true);
+    });
+  }
+});

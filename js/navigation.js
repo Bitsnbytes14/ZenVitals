@@ -2,6 +2,7 @@
 
 const Navigation = {
   currentPage: 'home',
+  _analyticsChart: null,
 
   init() {
     document.querySelectorAll('[data-nav]').forEach(el => {
@@ -63,12 +64,11 @@ const Navigation = {
       if (Chat && Chat.init) Chat.init();
     }
     if (page === 'booking' && Booking) Booking.init();
-    if (page === 'profile' && Profile) Profile.init();
     if (page === 'blog' && Blog) Blog.init();
   },
 
   _initAnalytics() {
-    const recent = Storage.getRecentCheckIns(14);
+    const recent = AppStorage.getRecentCheckIns(14);
     this._renderAnalyticsChart(recent);
     this._renderMoodHeatmap(recent);
     this._renderStats(recent);
@@ -82,7 +82,12 @@ const Navigation = {
     const labels = recent.map(c => c.date || '');
     const data = recent.map(c => c.score || 0);
 
-    new Chart(canvas, {
+    if (this._analyticsChart) {
+      this._analyticsChart.destroy();
+      this._analyticsChart = null;
+    }
+
+    this._analyticsChart = new Chart(canvas, {
       type: 'line',
       data: {
         labels,
@@ -140,9 +145,9 @@ const Navigation = {
     const avg = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
     const best = Math.max(...scores);
 
-    const statAvgEl = document.getElementById('stat-avg');
-    const statBestEl = document.getElementById('stat-best');
-    const statStreakEl = document.getElementById('stat-streak');
+    const statAvgEl = document.getElementById('analytics-avg');
+    const statBestEl = document.getElementById('analytics-best');
+    const statStreakEl = document.getElementById('analytics-total');
 
     if (statAvgEl) statAvgEl.textContent = avg;
     if (statBestEl) statBestEl.textContent = best;

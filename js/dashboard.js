@@ -62,8 +62,9 @@
    * @public
    */
   function refresh() {
-    const checkIns = Storage.getCheckIns();
-    const latest = Storage.getLatestCheckIn();
+    cacheElements(); // Always re-cache — refresh() may be called before init()
+    const checkIns = AppStorage.getCheckIns();
+    const latest = AppStorage.getLatestCheckIn();
 
     if (!latest) {
       showEmptyState();

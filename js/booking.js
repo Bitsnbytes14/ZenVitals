@@ -51,7 +51,7 @@ const Booking = {
 
     const bookings = this._getBookings();
     bookings.push(booking);
-    Storage.save(this.KEY, bookings);
+    AppStorage.save(this.KEY, bookings);
 
     this._showSuccess('Appointment booked successfully!');
     document.getElementById('booking-form')?.reset();
@@ -59,7 +59,7 @@ const Booking = {
   },
 
   _getBookings() {
-    return Storage.load(this.KEY) || [];
+    return AppStorage.load(this.KEY) || [];
   },
 
   _loadBookings() {
@@ -91,7 +91,7 @@ const Booking = {
   _cancelBooking(id) {
     if (!confirm('Cancel this appointment?')) return;
     const bookings = this._getBookings().filter(b => b.id !== id);
-    Storage.save(this.KEY, bookings);
+    AppStorage.save(this.KEY, bookings);
     this._loadBookings();
   },
 
